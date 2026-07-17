@@ -1,0 +1,129 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Plus, X } from "lucide-react";
+import { createProgram } from "@/lib/actions";
+
+const EMOJIS = ["🏋️", "🦵", "🔥", "🌿", "💪", "🏃", "🧘", "⚡"];
+const COLORS = ["#8b5cf6", "#22d3ee", "#34d399", "#fbbf24", "#fb7185", "#6366f1"];
+
+export function CreateProgramButton() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [pending, startTransition] = useTransition();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [emoji, setEmoji] = useState(EMOJIS[0]);
+  const [color, setColor] = useState(COLORS[0]);
+
+  function submit() {
+    if (!name.trim()) return;
+    startTransition(async () => {
+      const p = await createProgram({ name, description, emoji, color });
+      setOpen(false);
+      setName("");
+      setDescription("");
+      router.push(`/programs/${p.id}`);
+      router.refresh();
+    });
+  }
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="btn-primary inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold"
+      >
+        <Plus className="h-4 w-4" /> New program
+      </button>
+
+      {open && (
+        <div
+          className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+        >
+          <div
+            className="card animate-fade-up w-full max-w-md p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-lg font-bold">Create a program</h2>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-[var(--color-muted)] hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
+              Name
+            </label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Post-run recovery"
+              autoFocus
+              className="mb-4 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2.5 text-sm outline-none focus:border-[rgba(139,92,246,0.5)]"
+            />
+
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
+              Description
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="What's this program for?"
+              rows={2}
+              className="mb-4 w-full resize-none rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2.5 text-sm outline-none focus:border-[rgba(139,92,246,0.5)]"
+            />
+
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
+              Icon
+            </label>
+            <div className="mb-4 flex flex-wrap gap-2">
+              {EMOJIS.map((e) => (
+                <button
+                  key={e}
+                  onClick={() => setEmoji(e)}
+                  className={`grid h-10 w-10 place-items-center rounded-xl border text-lg transition-colors ${
+                    emoji === e
+                      ? "border-[rgba(139,92,246,0.6)] bg-[rgba(139,92,246,0.15)]"
+                      : "border-[var(--color-border)] bg-[var(--color-surface-2)]"
+                  }`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
+              Color
+            </label>
+            <div className="mb-6 flex gap-2">
+              {COLORS.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setColor(c)}
+                  className={`h-9 w-9 rounded-full border-2 transition-transform ${
+                    color === c ? "scale-110 border-white" : "border-transparent"
+                  }`}
+                  style={{ background: c }}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={submit}
+              disabled={pending || !name.trim()}
+              className="btn-primary w-full rounded-xl py-3 text-sm font-bold disabled:opacity-50"
+            >
+              {pending ? "Creating…" : "Create program"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

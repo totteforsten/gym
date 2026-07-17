@@ -1,0 +1,85 @@
+// Atlas Gym — Prisma schema
+// Postgres works great on Vercel (Vercel Postgres / Neon / Supabase).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Exercise {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  description   String
+  category      String // "Hip Rehab", "Strength", "Mobility", "Core"
+  bodyPart      String // "Hip", "Glutes", "Core", "Lower Back"
+  difficulty    String // "Beginner", "Intermediate", "Advanced"
+  equipment     String // "None", "Resistance Band", "Dumbbell"...
+  videoId       String // YouTube video id used for embed
+  instructions  String[] // ordered coaching cues
+  targetMuscles String[]
+  tags          String[]
+  defaultSets   Int      @default(3)
+  defaultReps   Int      @default(12)
+  isRehab       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  programItems ProgramExercise[]
+  logs         WorkoutLog[]
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  color       String   @default("#6366f1")
+  emoji       String   @default("🏋️")
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  exercises ProgramExercise[]
+}
+
+model ProgramExercise {
+  id         String @id @default(cuid())
+  programId  String
+  exerciseId String
+  order      Int    @default(0)
+  sets       Int    @default(3)
+  reps       Int    @default(12)
+
+  program  Program  @relation(fields: [programId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([programId, exerciseId])
+}
+
+model WorkoutLog {
+  id         String   @id @default(cuid())
+  exerciseId String
+  performedAt DateTime @default(now())
+  sets       Int
+  reps       Int
+  weight     Float    @default(0)
+  painLevel  Int      @default(0) // 0-10, key metric for rehab
+  rpe        Int      @default(5) // rate of perceived exertion 1-10
+  notes      String?
+
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([exerciseId, performedAt])
+}
+
+model Profile {
+  id           String   @id @default("me")
+  name         String   @default("Athlete")
+  goal         String   @default("Hip Rehabilitation")
+  weeklyTarget Int      @default(4)
+  heightCm     Int      @default(178)
+  weightKg     Float    @default(75)
+  updatedAt    DateTime @updatedAt @default(now())
+}
