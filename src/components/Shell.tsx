@@ -79,19 +79,28 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-border)] bg-[rgba(8,9,13,0.85)] backdrop-blur-xl lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-around px-2 py-2">
+      <nav
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-border)] bg-[rgba(8,9,13,0.9)] backdrop-blur-xl lg:hidden"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div className="mx-auto flex max-w-md items-stretch justify-around px-1.5 py-1.5">
           {NAV.map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-[10px] font-medium transition-colors ${
+                className={`flex flex-1 flex-col items-center gap-1 rounded-xl py-2 text-[10px] font-semibold transition-colors ${
                   active ? "text-[var(--color-brand)]" : "text-[var(--color-muted)]"
                 }`}
               >
-                <item.icon className="h-5 w-5" />
+                <span
+                  className={`grid h-8 w-full max-w-[3.5rem] place-items-center rounded-xl transition-colors ${
+                    active ? "bg-[rgba(139,92,246,0.14)]" : ""
+                  }`}
+                >
+                  <item.icon className="h-5 w-5" />
+                </span>
                 {item.label}
               </Link>
             );

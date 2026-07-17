@@ -56,9 +56,9 @@ export default async function ExercisePage({
         <ArrowLeft className="h-4 w-4" /> Back to library
       </Link>
 
-      <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        {/* Left column */}
-        <div className="flex flex-col gap-6">
+      <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+        {/* Block A — header + video + meta (col 1, row 1) */}
+        <div className="flex flex-col gap-5 sm:gap-6 lg:col-start-1 lg:row-start-1">
           <div>
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span
@@ -97,9 +97,33 @@ export default async function ExercisePage({
             <MetaCard icon={<Layers className="h-4 w-4" />} label="Suggested" value={`${exercise.defaultSets}×${exercise.defaultReps}`} />
             <MetaCard icon={<History className="h-4 w-4" />} label="Times logged" value={String(logs.length)} />
           </div>
+        </div>
 
+        {/* Block B — action panel (col 2, spans both rows, sticky). On mobile
+            this renders right after the video so logging is always in reach. */}
+        <div className="flex flex-col gap-4 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-6">
+          <LogWorkoutForm
+            exerciseId={exercise.id}
+            exerciseName={exercise.name}
+            defaultSets={exercise.defaultSets}
+            defaultReps={exercise.defaultReps}
+            isRehab={exercise.isRehab}
+          />
+          <AddToProgramMenu
+            exerciseId={exercise.id}
+            programs={programs.map((p) => ({
+              id: p.id,
+              name: p.name,
+              emoji: p.emoji,
+            }))}
+            inPrograms={Array.from(inPrograms)}
+          />
+        </div>
+
+        {/* Block C — instructions + history (col 1, row 2) */}
+        <div className="flex flex-col gap-5 sm:gap-6 lg:col-start-1 lg:row-start-2">
           {/* Instructions */}
-          <div className="card p-6">
+          <div className="card p-5 sm:p-6">
             <div className="mb-4 flex items-center gap-2">
               <ListOrdered className="h-5 w-5 text-[var(--color-brand)]" />
               <h2 className="text-lg font-bold">How to perform</h2>
@@ -131,28 +155,6 @@ export default async function ExercisePage({
 
           {/* History */}
           <ExerciseHistory logs={logs} bestWeight={bestSet?.weight ?? 0} />
-        </div>
-
-        {/* Right column — sticky action panel */}
-        <div className="lg:sticky lg:top-6 lg:h-fit">
-          <div className="flex flex-col gap-4">
-            <LogWorkoutForm
-              exerciseId={exercise.id}
-              exerciseName={exercise.name}
-              defaultSets={exercise.defaultSets}
-              defaultReps={exercise.defaultReps}
-              isRehab={exercise.isRehab}
-            />
-            <AddToProgramMenu
-              exerciseId={exercise.id}
-              programs={programs.map((p) => ({
-                id: p.id,
-                name: p.name,
-                emoji: p.emoji,
-              }))}
-              inPrograms={Array.from(inPrograms)}
-            />
-          </div>
         </div>
       </div>
     </main>

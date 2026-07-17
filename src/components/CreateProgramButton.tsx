@@ -44,7 +44,7 @@ export function CreateProgramButton() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="card animate-fade-up w-full max-w-md p-6"
+            className="card animate-fade-up max-h-[90vh] w-full max-w-md overflow-y-auto p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-5 flex items-center justify-between">

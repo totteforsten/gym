@@ -15,7 +15,7 @@ export function VideoPlayer({
 
   return (
     <div className="card overflow-hidden">
-      <div className="relative aspect-video w-full bg-black">
+      <div className="relative aspect-video w-full bg-gradient-to-br from-[#141722] to-[#0a0b10]">
         {playing ? (
           <iframe
             className="absolute inset-0 h-full w-full"

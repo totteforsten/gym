@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Play, Activity } from "lucide-react";
+import { Play, Activity, Dumbbell } from "lucide-react";
 import { Badge } from "./ui";
 import { difficultyColor, youtubeThumb, categoryColor } from "@/lib/utils";
 
@@ -26,13 +26,21 @@ export function ExerciseCard({ exercise, index = 0 }: Props) {
       className="card card-hover group animate-fade-up flex flex-col overflow-hidden"
       style={{ animationDelay: `${Math.min(index * 40, 320)}ms` }}
     >
-      <div className="relative aspect-video overflow-hidden">
+      <div
+        className="relative aspect-video overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, ${categoryColor(exercise.category)}33, ${categoryColor(exercise.category)}0d)`,
+        }}
+      >
+        <span className="absolute inset-0 grid place-items-center text-[var(--color-muted)] opacity-40">
+          <Dumbbell className="h-8 w-8" />
+        </span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={youtubeThumb(exercise.videoId)}
           alt={exercise.name}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="relative h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,9,13,0.9)] via-transparent to-transparent" />
         <div className="absolute left-3 top-3 flex gap-2">
