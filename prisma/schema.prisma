@@ -10,6 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String   @default("Athlete")
+  password  String // scrypt hash (salt:hash)
+  createdAt DateTime @default(now())
+
+  profile  Profile?
+  programs Program[]
+  logs     WorkoutLog[]
+}
+
 model Exercise {
   id            String   @id @default(cuid())
   slug          String   @unique
@@ -34,6 +46,7 @@ model Exercise {
 
 model Program {
   id          String   @id @default(cuid())
+  userId      String
   name        String
   description String
   color       String   @default("#6366f1")
@@ -41,7 +54,10 @@ model Program {
   isDefault   Boolean  @default(false)
   createdAt   DateTime @default(now())
 
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   exercises ProgramExercise[]
+
+  @@index([userId])
 }
 
 model ProgramExercise {
@@ -59,27 +75,33 @@ model ProgramExercise {
 }
 
 model WorkoutLog {
-  id         String   @id @default(cuid())
-  exerciseId String
+  id          String   @id @default(cuid())
+  userId      String
+  exerciseId  String
   performedAt DateTime @default(now())
-  sets       Int
-  reps       Int
-  weight     Float    @default(0)
-  painLevel  Int      @default(0) // 0-10, key metric for rehab
-  rpe        Int      @default(5) // rate of perceived exertion 1-10
-  notes      String?
+  sets        Int
+  reps        Int
+  weight      Float    @default(0)
+  painLevel   Int      @default(0) // 0-10, key metric for rehab
+  rpe         Int      @default(5) // rate of perceived exertion 1-10
+  notes       String?
 
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 
+  @@index([userId, performedAt])
   @@index([exerciseId, performedAt])
 }
 
 model Profile {
-  id           String   @id @default("me")
+  id           String   @id @default(cuid())
+  userId       String   @unique
   name         String   @default("Athlete")
   goal         String   @default("Hip Rehabilitation")
   weeklyTarget Int      @default(4)
   heightCm     Int      @default(178)
   weightKg     Float    @default(75)
   updatedAt    DateTime @updatedAt @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -9,8 +9,10 @@ import {
   LineChart,
   User,
   Activity,
+  LogOut,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { signOut } from "@/lib/auth-actions";
 
 const NAV = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -20,13 +22,26 @@ const NAV = [
   { href: "/profile", label: "Profile", icon: User },
 ];
 
+const AUTH_ROUTES = ["/login", "/signup"];
+
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
 }
 
-export function Shell({ children }: { children: React.ReactNode }) {
+export function Shell({
+  children,
+  userName,
+}: {
+  children: React.ReactNode;
+  userName?: string | null;
+}) {
   const pathname = usePathname();
+
+  // Auth screens render without the app chrome.
+  if (AUTH_ROUTES.some((r) => pathname.startsWith(r))) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1500px]">
@@ -59,17 +74,25 @@ export function Shell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <div className="card mt-4 p-4">
-          <p className="text-xs font-medium text-[var(--color-muted)]">
-            Focus program
-          </p>
-          <p className="mt-1 text-sm font-semibold">Hip Rehab Foundations</p>
-          <Link
-            href="/programs"
-            className="mt-3 inline-flex text-xs font-semibold text-[var(--color-brand)] hover:underline"
-          >
-            View programs →
-          </Link>
+        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[var(--color-brand)] to-[var(--color-brand-2)] text-sm font-bold text-white">
+            {(userName ?? "A").charAt(0).toUpperCase()}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold">
+              {userName ?? "Athlete"}
+            </p>
+            <p className="text-[11px] text-[var(--color-muted)]">Signed in</p>
+          </div>
+          <form action={signOut}>
+            <button
+              type="submit"
+              title="Sign out"
+              className="grid h-8 w-8 place-items-center rounded-lg text-[var(--color-muted)] transition-colors hover:bg-[var(--color-surface-2)] hover:text-[var(--color-rose)]"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </form>
         </div>
       </aside>
 

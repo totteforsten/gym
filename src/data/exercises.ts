@@ -31,7 +31,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Glutes",
     difficulty: "Beginner",
     equipment: "None",
-    videoId: "1OQmOh1yZ0w",
+    videoId: "JAe2-BNytOk",
     instructions: [
       "Lie on your side with hips and knees bent to roughly 45 degrees, feet stacked.",
       "Keep your feet together and your core gently braced.",
@@ -53,7 +53,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Glutes",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "wPM8icPu6H8",
+    videoId: "tl6xvm4-Qk0",
     instructions: [
       "Lie on your back, knees bent, feet flat and hip-width apart.",
       "Drive through your heels and squeeze your glutes to lift your hips.",
@@ -75,7 +75,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Beginner",
     equipment: "None",
-    videoId: "jgh6sGwtTwk",
+    videoId: "s6lDpy4AO6w",
     instructions: [
       "Lie on your side with your bottom leg bent for support and top leg straight.",
       "Keep your top toes pointing slightly down and forward.",
@@ -97,7 +97,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Glutes",
     difficulty: "Beginner",
     equipment: "None",
-    videoId: "F4vhrDlZLGY",
+    videoId: "bcsEMvXShFg",
     instructions: [
       "Start on all fours with wrists under shoulders and knees under hips.",
       "Keeping the knee bent at 90 degrees, lift one leg out to the side.",
@@ -119,7 +119,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Core",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "wiFNA3sqjCA",
+    videoId: "0XeXPbBMYFM",
     instructions: [
       "Start on all fours, spine neutral, core braced.",
       "Extend your opposite arm and leg until they're in line with your torso.",
@@ -141,7 +141,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "YQmpO9VT2X4",
+    videoId: "CXIf4TR2OKQ",
     instructions: [
       "Kneel on one knee with the other foot planted in front, knee over ankle.",
       "Tuck your pelvis under (posterior tilt) to feel the front-hip stretch.",
@@ -163,7 +163,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "3lQ3xZH8w9o",
+    videoId: "VgjgTGnBkx0",
     instructions: [
       "Lie on your back and cross one ankle over the opposite knee (figure-4).",
       "Reach through and pull the bottom thigh toward your chest.",
@@ -185,7 +185,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Glutes",
     difficulty: "Intermediate",
     equipment: "Resistance Band",
-    videoId: "q0dwFxvurck",
+    videoId: "aXmlaNGfxpw",
     instructions: [
       "Loop a resistance band just above your knees and sink into a quarter squat.",
       "Keep tension on the band by pushing your knees out.",
@@ -207,7 +207,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Intermediate",
     equipment: "Resistance Band",
-    videoId: "d3z7f1r2Vf8",
+    videoId: "KfM9snP7I2E",
     instructions: [
       "Anchor a band around one ankle and hold a wall for balance.",
       "Stand tall and brace your core.",
@@ -229,7 +229,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Beginner",
     equipment: "None",
-    videoId: "GJML3mQ0wJc",
+    videoId: "tuA9yGQZOII",
     instructions: [
       "Stand tall near a wall or chair for safety.",
       "Shift your weight onto one leg and lift the other slightly off the floor.",
@@ -251,7 +251,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Advanced",
     equipment: "None",
-    videoId: "kURVJXQvJgA",
+    videoId: "uWOQj9VmSDQ",
     instructions: [
       "Balance on one leg with a soft knee, hinging forward at the hip.",
       "Extend the free leg behind you and reach your torso toward parallel.",
@@ -317,7 +317,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Core",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "g_BYB0R-4Ws",
+    videoId: "0XeXPbBMYFM",
     instructions: [
       "Lie on your back with arms reaching up and hips and knees bent to 90 degrees.",
       "Press your lower back gently into the floor.",
@@ -339,7 +339,7 @@ export const EXERCISES: SeedExercise[] = [
     bodyPart: "Hip",
     difficulty: "Beginner",
     equipment: "Mat",
-    videoId: "j0Dd9C1MC1s",
+    videoId: "_I6vFSlcyPY",
     instructions: [
       "Sit with one leg bent in front at 90 degrees and the other out to the side at 90 degrees.",
       "Stay tall through your spine, chest lifted.",

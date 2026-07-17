@@ -5,17 +5,21 @@ import {
   Trophy,
   Target,
   HeartPulse,
+  LogOut,
 } from "lucide-react";
 import { getProfile, getDashboardStats } from "@/lib/queries";
+import { getCurrentUser } from "@/lib/auth";
+import { signOut } from "@/lib/auth-actions";
 import { PageHeader } from "@/components/ui";
 import { ProfileForm } from "@/components/ProfileForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProfilePage() {
-  const [profile, stats] = await Promise.all([
+  const [profile, stats, user] = await Promise.all([
     getProfile(),
     getDashboardStats(),
+    getCurrentUser(),
   ]);
 
   const bmi =
@@ -37,7 +41,17 @@ export default async function ProfilePage() {
       <PageHeader
         eyebrow="Profile"
         title="Your profile"
-        subtitle="Set your goals and see your all-time achievements."
+        subtitle={user?.email ? `Signed in as ${user.email}` : "Set your goals and see your all-time achievements."}
+        action={
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-2.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:border-[rgba(251,113,133,0.4)] hover:text-[var(--color-rose)]"
+            >
+              <LogOut className="h-4 w-4" /> Sign out
+            </button>
+          </form>
+        }
       />
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.3fr]">

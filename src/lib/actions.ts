@@ -2,7 +2,17 @@
 
 import { prisma } from "./prisma";
 import { ensureSeeded } from "./seed";
+import { requireUserId } from "./auth";
 import { revalidatePath } from "next/cache";
+
+/** Throws unless the program exists and belongs to the given user. */
+async function assertOwnsProgram(userId: string, programId: string) {
+  const program = await prisma.program.findUnique({
+    where: { id: programId },
+    select: { userId: true },
+  });
+  if (!program || program.userId !== userId) throw new Error("FORBIDDEN");
+}
 
 function slugify(s: string) {
   return s
@@ -47,6 +57,7 @@ export async function createExercise(input: {
   isRehab: boolean;
 }) {
   await ensureSeeded();
+  await requireUserId();
   const base = slugify(input.name) || "exercise";
   let slug = base;
   let n = 1;
@@ -82,6 +93,7 @@ export async function createExercise(input: {
 }
 
 export async function deleteExercise(id: string) {
+  await requireUserId();
   await prisma.exercise.delete({ where: { id } });
   revalidatePath("/library");
 }
@@ -96,8 +108,10 @@ export async function logWorkout(input: {
   notes?: string;
 }) {
   await ensureSeeded();
+  const userId = await requireUserId();
   const log = await prisma.workoutLog.create({
     data: {
+      userId,
       exerciseId: input.exerciseId,
       sets: Math.max(1, Math.round(input.sets)),
       reps: Math.max(1, Math.round(input.reps)),
@@ -114,7 +128,8 @@ export async function logWorkout(input: {
 }
 
 export async function deleteLog(id: string) {
-  await prisma.workoutLog.delete({ where: { id } });
+  const userId = await requireUserId();
+  await prisma.workoutLog.deleteMany({ where: { id, userId } });
   revalidatePath("/");
   revalidatePath("/progress");
 }
@@ -126,8 +141,10 @@ export async function createProgram(input: {
   color: string;
 }) {
   await ensureSeeded();
+  const userId = await requireUserId();
   const program = await prisma.program.create({
     data: {
+      userId,
       name: input.name.trim() || "New Program",
       description: input.description.trim(),
       emoji: input.emoji || "🏋️",
@@ -139,7 +156,8 @@ export async function createProgram(input: {
 }
 
 export async function deleteProgram(id: string) {
-  await prisma.program.delete({ where: { id } });
+  const userId = await requireUserId();
+  await prisma.program.deleteMany({ where: { id, userId } });
   revalidatePath("/programs");
 }
 
@@ -149,6 +167,8 @@ export async function addExerciseToProgram(input: {
   sets?: number;
   reps?: number;
 }) {
+  const userId = await requireUserId();
+  await assertOwnsProgram(userId, input.programId);
   const ex = await prisma.exercise.findUnique({ where: { id: input.exerciseId } });
   const count = await prisma.programExercise.count({
     where: { programId: input.programId },
@@ -177,6 +197,8 @@ export async function removeExerciseFromProgram(input: {
   programId: string;
   exerciseId: string;
 }) {
+  const userId = await requireUserId();
+  await assertOwnsProgram(userId, input.programId);
   await prisma.programExercise.deleteMany({
     where: { programId: input.programId, exerciseId: input.exerciseId },
   });
@@ -190,6 +212,8 @@ export async function updateProgramExercise(input: {
   sets: number;
   reps: number;
 }) {
+  const userId = await requireUserId();
+  await assertOwnsProgram(userId, input.programId);
   await prisma.programExercise.updateMany({
     where: { programId: input.programId, exerciseId: input.exerciseId },
     data: {
@@ -207,9 +231,9 @@ export async function updateProfile(input: {
   heightCm: number;
   weightKg: number;
 }) {
-  await ensureSeeded();
+  const userId = await requireUserId();
   await prisma.profile.update({
-    where: { id: "me" },
+    where: { userId },
     data: {
       name: input.name.trim() || "Athlete",
       goal: input.goal.trim(),
@@ -217,6 +241,11 @@ export async function updateProfile(input: {
       heightCm: Math.max(0, Math.round(input.heightCm)),
       weightKg: Math.max(0, input.weightKg),
     },
+  });
+  // Keep the user's display name in sync with their profile name.
+  await prisma.user.update({
+    where: { id: userId },
+    data: { name: input.name.trim() || "Athlete" },
   });
   revalidatePath("/profile");
   revalidatePath("/");

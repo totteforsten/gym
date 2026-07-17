@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Shell } from "@/components/Shell";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Atlas — Modern Gym & Rehab Tracker",
@@ -14,11 +15,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Never let a DB hiccup crash the shell — the login page must still render.
+  const user = await getCurrentUser().catch(() => null);
   return (
     <html lang="en">
       <head>
@@ -34,7 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Shell>{children}</Shell>
+        <Shell userName={user?.name}>{children}</Shell>
       </body>
     </html>
   );

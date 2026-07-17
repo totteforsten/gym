@@ -3,11 +3,13 @@ import { ensureSeeded } from "../src/lib/seed";
 import { prisma } from "../src/lib/prisma";
 
 async function main() {
-  console.log("🌱 Seeding Atlas Gym database…");
+  console.log("🌱 Seeding Atlas Gym exercise library…");
   await ensureSeeded();
   const exercises = await prisma.exercise.count();
-  const programs = await prisma.program.count();
-  console.log(`✅ Done. ${exercises} exercises, ${programs} programs.`);
+  console.log(
+    `✅ Done. ${exercises} exercises in the shared library. ` +
+      `Programs and profiles are created per-user on sign-up.`,
+  );
 }
 
 main()

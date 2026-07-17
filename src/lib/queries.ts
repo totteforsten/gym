@@ -1,7 +1,9 @@
 import { prisma } from "./prisma";
-import { ensureSeeded } from "./seed";
+import { ensureSeeded, ensureUserData } from "./seed";
+import { requireUserId } from "./auth";
 
 // All reads go through here so the DB is guaranteed seeded before first use.
+// User-scoped reads pull the signed-in user's id from the session cookie.
 
 export async function getExercises(filters?: {
   q?: string;
@@ -38,18 +40,28 @@ export async function getExercises(filters?: {
 
 export async function getExerciseBySlug(slug: string) {
   await ensureSeeded();
+  const userId = await requireUserId();
   return prisma.exercise.findUnique({
     where: { slug },
     include: {
-      logs: { orderBy: { performedAt: "desc" }, take: 50 },
-      programItems: { include: { program: true } },
+      logs: {
+        where: { userId },
+        orderBy: { performedAt: "desc" },
+        take: 50,
+      },
+      programItems: {
+        where: { program: { userId } },
+        include: { program: true },
+      },
     },
   });
 }
 
 export async function getPrograms() {
-  await ensureSeeded();
+  const userId = await requireUserId();
+  await ensureUserData(userId);
   return prisma.program.findMany({
+    where: { userId },
     orderBy: [{ isDefault: "desc" }, { createdAt: "asc" }],
     include: {
       exercises: {
@@ -61,34 +73,45 @@ export async function getPrograms() {
 }
 
 export async function getProgram(id: string) {
-  await ensureSeeded();
-  return prisma.program.findUnique({
+  const userId = await requireUserId();
+  const program = await prisma.program.findUnique({
     where: { id },
     include: {
       exercises: {
         orderBy: { order: "asc" },
         include: {
           exercise: {
-            include: { logs: { orderBy: { performedAt: "desc" }, take: 1 } },
+            include: {
+              logs: {
+                where: { userId },
+                orderBy: { performedAt: "desc" },
+                take: 1,
+              },
+            },
           },
         },
       },
     },
   });
+  // Don't leak another user's program.
+  if (!program || program.userId !== userId) return null;
+  return program;
 }
 
 export async function getProfile() {
-  await ensureSeeded();
+  const userId = await requireUserId();
+  await ensureUserData(userId);
   return prisma.profile.upsert({
-    where: { id: "me" },
+    where: { userId },
     update: {},
-    create: { id: "me" },
+    create: { userId },
   });
 }
 
 export async function getRecentLogs(take = 8) {
-  await ensureSeeded();
+  const userId = await requireUserId();
   return prisma.workoutLog.findMany({
+    where: { userId },
     orderBy: { performedAt: "desc" },
     take,
     include: { exercise: true },
@@ -133,9 +156,12 @@ export type ExerciseProgress = {
 
 export async function getExerciseProgress(): Promise<ExerciseProgress[]> {
   await ensureSeeded();
+  const userId = await requireUserId();
   const exercises = await prisma.exercise.findMany({
-    where: { logs: { some: {} } },
-    include: { logs: { orderBy: { performedAt: "asc" } } },
+    where: { logs: { some: { userId } } },
+    include: {
+      logs: { where: { userId }, orderBy: { performedAt: "asc" } },
+    },
   });
 
   return exercises
@@ -167,8 +193,10 @@ export async function getExerciseProgress(): Promise<ExerciseProgress[]> {
 
 export async function getDashboardStats(): Promise<DashboardStats> {
   await ensureSeeded();
+  const userId = await requireUserId();
   const [logs, profile, totalExercises] = await Promise.all([
     prisma.workoutLog.findMany({
+      where: { userId },
       orderBy: { performedAt: "asc" },
       include: { exercise: true },
     }),

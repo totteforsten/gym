@@ -10,6 +10,7 @@ Dark-mode first, fully responsive, backed by a real Postgres database, and ready
 
 ## ✨ Features
 
+- **Accounts & login** — email/password sign-up and sign-in. Every user gets their own private programs, logs and profile; the exercise library is shared.
 - **Exercise library** with a video demonstration + step-by-step coaching cues for every move. Live search & filtering by category, difficulty, body part.
 - **Prebuilt hip-rehab programs** — a physio-inspired *Hip Rehab Foundations* plan, a *Hip Strength Progression*, and a *Daily Mobility Flow*, seeded automatically.
 - **Build your own** — create custom exercises (paste any YouTube link) and assemble your own programs.
@@ -47,15 +48,16 @@ Pick any Postgres provider — all work out of the box:
 ### 2. Deploy
 
 1. Push this repo to GitHub and **import it into Vercel** (it auto-detects Next.js).
-2. Add one environment variable:
+2. Add two environment variables:
 
-   | Key            | Value                                             |
-   | -------------- | ------------------------------------------------- |
-   | `DATABASE_URL` | your Postgres connection string                   |
+   | Key            | Value                                                                        |
+   | -------------- | ---------------------------------------------------------------------------- |
+   | `DATABASE_URL` | your Postgres connection string                                              |
+   | `AUTH_SECRET`  | a long random string that signs login sessions (`openssl rand -base64 32`)   |
 
 3. Click **Deploy**.
 
-That's it. The build command (`prisma generate && prisma db push && next build`, configured in `vercel.json`) creates the tables automatically, and the app seeds the exercise library + programs on first request.
+That's it. The build command (`prisma generate && prisma db push && next build`, configured in `vercel.json`) creates the tables automatically. Create an account on first visit — the shared exercise library seeds automatically, and each new account gets its own copy of the prebuilt hip-rehab programs.
 
 ---
 
