@@ -28,27 +28,29 @@ export default async function ProfilePage() {
       : "—";
 
   const achievements = [
-    { icon: "🏁", label: "First Steps", desc: "Log your first workout", unlocked: stats.totalSessions >= 1 },
-    { icon: "🔥", label: "On Fire", desc: "3 day streak", unlocked: stats.streak >= 3 },
-    { icon: "💪", label: "Consistent", desc: "10 total sessions", unlocked: stats.totalSessions >= 10 },
-    { icon: "🎯", label: "Explorer", desc: "Track 5 exercises", unlocked: stats.exercisesTracked >= 5 },
-    { icon: "📉", label: "Healing", desc: "Reduce weekly pain", unlocked: stats.avgPain7d != null && stats.avgPainPrev7d != null && stats.avgPain7d < stats.avgPainPrev7d },
-    { icon: "🏆", label: "Century", desc: "1,000 total reps", unlocked: stats.totalReps >= 1000 },
+    { icon: "🏁", label: "Första steget", desc: "Logga ditt första pass", unlocked: stats.totalSessions >= 1 },
+    { icon: "🔥", label: "På gång", desc: "3 dagars svit", unlocked: stats.streak >= 3 },
+    { icon: "💪", label: "Ihärdig", desc: "10 pass totalt", unlocked: stats.totalSessions >= 10 },
+    { icon: "🎯", label: "Utforskare", desc: "Logga 5 övningar", unlocked: stats.exercisesTracked >= 5 },
+    { icon: "📉", label: "Läkning", desc: "Minska veckans smärta", unlocked: stats.avgPain7d != null && stats.avgPainPrev7d != null && stats.avgPain7d < stats.avgPainPrev7d },
+    { icon: "🏆", label: "Tusenklubben", desc: "1 000 reps totalt", unlocked: stats.totalReps >= 1000 },
+    { icon: "⚡", label: "Kaloribrännare", desc: "Bränn 1 000 kcal", unlocked: stats.totalKcal >= 1000 },
+    { icon: "📅", label: "Veckohjälte", desc: "Nå ditt veckomål", unlocked: stats.thisWeekSessions >= stats.weeklyTarget },
   ];
 
   return (
     <main className="px-5 py-6 sm:px-8 sm:py-8">
       <PageHeader
-        eyebrow="Profile"
-        title="Your profile"
-        subtitle={user?.email ? `Signed in as ${user.email}` : "Set your goals and see your all-time achievements."}
+        eyebrow="Profil"
+        title="Din profil"
+        subtitle={user?.email ? `Inloggad som ${user.email}` : "Ställ in dina mål och se dina samlade prestationer."}
         action={
           <form action={signOut}>
             <button
               type="submit"
               className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-2.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:border-[rgba(251,113,133,0.4)] hover:text-[var(--color-rose)]"
             >
-              <LogOut className="h-4 w-4" /> Sign out
+              <LogOut className="h-4 w-4" /> Logga ut
             </button>
           </form>
         }
@@ -66,8 +68,8 @@ export default async function ProfilePage() {
             <p className="relative text-sm text-[var(--color-brand)]">{profile.goal}</p>
 
             <div className="relative mt-6 grid grid-cols-3 gap-3 border-t border-[var(--color-border)] pt-5">
-              <MiniStat label="Height" value={`${profile.heightCm}cm`} />
-              <MiniStat label="Weight" value={`${profile.weightKg}kg`} />
+              <MiniStat label="Längd" value={`${profile.heightCm}cm`} />
+              <MiniStat label="Vikt" value={`${profile.weightKg}kg`} />
               <MiniStat label="BMI" value={bmi} />
             </div>
           </div>
@@ -87,21 +89,21 @@ export default async function ProfilePage() {
         <div className="flex flex-col gap-6">
           <div>
             <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-[var(--color-muted)]">
-              Lifetime stats
+              Statistik totalt
             </h3>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <StatTile icon={<CalendarCheck className="h-5 w-5" />} label="Sessions" value={stats.totalSessions} accent="var(--color-brand)" />
-              <StatTile icon={<Dumbbell className="h-5 w-5" />} label="Total reps" value={stats.totalReps.toLocaleString()} accent="var(--color-accent)" />
-              <StatTile icon={<Flame className="h-5 w-5" />} label="Streak" value={`${stats.streak}d`} accent="var(--color-amber)" />
-              <StatTile icon={<Target className="h-5 w-5" />} label="Tracked" value={stats.exercisesTracked} accent="var(--color-mint)" />
-              <StatTile icon={<HeartPulse className="h-5 w-5" />} label="Avg pain" value={stats.avgPain7d != null ? `${stats.avgPain7d}` : "—"} accent="var(--color-rose)" />
-              <StatTile icon={<Trophy className="h-5 w-5" />} label="Sets" value={stats.totalSets} accent="var(--color-brand-2)" />
+              <StatTile icon={<CalendarCheck className="h-5 w-5" />} label="Pass" value={stats.totalSessions} accent="var(--color-brand)" />
+              <StatTile icon={<Dumbbell className="h-5 w-5" />} label="Totala reps" value={stats.totalReps.toLocaleString("sv-SE")} accent="var(--color-accent)" />
+              <StatTile icon={<Flame className="h-5 w-5" />} label="Kcal brända" value={`~${stats.totalKcal.toLocaleString("sv-SE")}`} accent="var(--color-rose)" />
+              <StatTile icon={<Target className="h-5 w-5" />} label="Övningar" value={stats.exercisesTracked} accent="var(--color-mint)" />
+              <StatTile icon={<HeartPulse className="h-5 w-5" />} label="Snittsmärta" value={stats.avgPain7d != null ? `${stats.avgPain7d}` : "—"} accent="var(--color-amber)" />
+              <StatTile icon={<Trophy className="h-5 w-5" />} label="Set" value={stats.totalSets} accent="var(--color-brand-2)" />
             </div>
           </div>
 
           <div>
             <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-[var(--color-muted)]">
-              Achievements
+              Prestationer
             </h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {achievements.map((a) => (

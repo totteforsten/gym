@@ -26,13 +26,13 @@ export function DeleteProgramButton({ programId }: { programId: string }) {
           disabled={pending}
           className="rounded-xl border border-[rgba(251,113,133,0.4)] bg-[rgba(251,113,133,0.12)] px-3 py-2 text-xs font-semibold text-[var(--color-rose)]"
         >
-          {pending ? "Deleting…" : "Confirm delete"}
+          {pending ? "Tar bort…" : "Bekräfta borttagning"}
         </button>
         <button
           onClick={() => setConfirm(false)}
           className="rounded-xl border border-[var(--color-border)] px-3 py-2 text-xs font-semibold text-[var(--color-muted)]"
         >
-          Cancel
+          Avbryt
         </button>
       </div>
     );
@@ -43,7 +43,7 @@ export function DeleteProgramButton({ programId }: { programId: string }) {
       onClick={() => setConfirm(true)}
       className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2 text-xs font-semibold text-[var(--color-muted)] transition-colors hover:border-[rgba(251,113,133,0.4)] hover:text-[var(--color-rose)]"
     >
-      <Trash2 className="h-3.5 w-3.5" /> Delete
+      <Trash2 className="h-3.5 w-3.5" /> Ta bort
     </button>
   );
 }

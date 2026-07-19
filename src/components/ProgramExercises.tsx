@@ -41,16 +41,16 @@ export function ProgramExercises({
   if (items.length === 0) {
     return (
       <div className="card flex flex-col items-center gap-3 px-6 py-14 text-center">
-        <p className="font-semibold">No exercises yet</p>
+        <p className="font-semibold">Inga övningar än</p>
         <p className="max-w-sm text-sm text-[var(--color-muted)]">
-          Browse the library and tap &ldquo;Add to program&rdquo; on any
-          exercise to build this routine.
+          Bläddra i övningsbanken och tryck &ldquo;Lägg till i program&rdquo; på
+          valfri övning för att bygga den här rutinen.
         </p>
         <Link
           href="/library"
           className="btn-primary mt-1 rounded-xl px-4 py-2 text-sm font-semibold"
         >
-          Browse exercises
+          Bläddra bland övningar
         </Link>
       </div>
     );
@@ -65,9 +65,9 @@ export function ProgramExercises({
       <div className="card mb-4 flex items-center gap-4 p-4">
         <div className="flex-1">
           <div className="mb-1.5 flex items-center justify-between text-sm">
-            <span className="font-semibold">Session progress</span>
+            <span className="font-semibold">Passets framsteg</span>
             <span className="text-[var(--color-muted)]">
-              {completed}/{items.length} done
+              {completed}/{items.length} klara
             </span>
           </div>
           <div className="h-2.5 overflow-hidden rounded-full bg-[var(--color-surface-2)]">
@@ -82,7 +82,7 @@ export function ProgramExercises({
             onClick={() => setDone(new Set())}
             className="shrink-0 text-xs font-semibold text-[var(--color-muted)] hover:text-white"
           >
-            Reset
+            Nollställ
           </button>
         )}
       </div>
@@ -194,14 +194,14 @@ function Row({
             <span>·</span>
             <span>
               {item.lastLogged
-                ? `Last ${relativeDate(item.lastLogged)}`
-                : "Not logged"}
+                ? `Senast ${relativeDate(item.lastLogged)}`
+                : "Ej loggad"}
             </span>
           </div>
         </div>
 
         <div className="hidden items-center gap-3 sm:flex">
-          <Counter label="sets" value={sets} onChange={(v) => save(v, reps)} min={1} max={20} />
+          <Counter label="set" value={sets} onChange={(v) => save(v, reps)} min={1} max={20} />
           <span className="text-[var(--color-muted)]">×</span>
           <Counter label="reps" value={reps} onChange={(v) => save(sets, v)} min={1} max={100} />
         </div>
@@ -218,14 +218,14 @@ function Row({
 
       {/* Mobile counters */}
       <div className="mt-3 flex items-center gap-3 sm:hidden">
-        <Counter label="sets" value={sets} onChange={(v) => save(v, reps)} min={1} max={20} />
+        <Counter label="set" value={sets} onChange={(v) => save(v, reps)} min={1} max={20} />
         <span className="text-[var(--color-muted)]">×</span>
         <Counter label="reps" value={reps} onChange={(v) => save(sets, v)} min={1} max={100} />
         <Link
           href={`/exercise/${item.slug}`}
           className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-brand)]"
         >
-          Log <ChevronRight className="h-3.5 w-3.5" />
+          Logga <ChevronRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>

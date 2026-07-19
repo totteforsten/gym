@@ -84,6 +84,7 @@ export async function createExercise(input: {
       tags: [input.category.toLowerCase(), input.bodyPart.toLowerCase()],
       defaultSets: Math.max(1, Math.round(input.defaultSets)),
       defaultReps: Math.max(1, Math.round(input.defaultReps)),
+      kcalPerSet: input.isRehab ? 3 : 5,
       isRehab: input.isRehab,
     },
   });
@@ -139,16 +140,18 @@ export async function createProgram(input: {
   description: string;
   emoji: string;
   color: string;
+  goal?: string;
 }) {
   await ensureSeeded();
   const userId = await requireUserId();
   const program = await prisma.program.create({
     data: {
       userId,
-      name: input.name.trim() || "New Program",
+      name: input.name.trim() || "Nytt program",
       description: input.description.trim(),
       emoji: input.emoji || "🏋️",
       color: input.color || "#6366f1",
+      goal: input.goal || "Bygg muskler",
     },
   });
   revalidatePath("/programs");

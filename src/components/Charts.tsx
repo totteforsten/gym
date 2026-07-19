@@ -61,7 +61,7 @@ export function VolumeChart({
         <Area
           type="monotone"
           dataKey="reps"
-          name="Volume"
+          name="Volym"
           stroke="#8b5cf6"
           strokeWidth={2.5}
           fill="url(#vol)"
@@ -93,7 +93,7 @@ export function PainTrendChart({
         <Area
           type="monotone"
           dataKey="pain"
-          name="Avg pain"
+          name="Snittsmärta"
           stroke="#22d3ee"
           strokeWidth={2.5}
           fill="url(#pain)"
@@ -128,7 +128,7 @@ export function CategoryDonut({
               <Cell key={d.name} fill={categoryColor(d.name)} />
             ))}
           </Pie>
-          <Tooltip content={<TooltipBox suffix=" sets" />} />
+          <Tooltip content={<TooltipBox suffix=" set" />} />
         </PieChart>
       </ResponsiveContainer>
       <div className="flex flex-col gap-2">

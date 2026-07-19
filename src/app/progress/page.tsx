@@ -16,49 +16,49 @@ export default async function ProgressPage() {
   return (
     <main className="px-5 py-6 sm:px-8 sm:py-8">
       <PageHeader
-        eyebrow="Progress"
-        title="Track your recovery"
-        subtitle="Every logged set builds the picture. Watch your volume climb and your pain levels fall."
+        eyebrow="Framsteg"
+        title="Följ din utveckling"
+        subtitle="Varje loggat set bygger bilden. Se din volym stiga och dina smärtnivåer falla."
       />
 
-      {/* Overview charts */}
+      {/* Översiktsdiagram */}
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <div className="card p-5">
-          <h2 className="font-bold">Training volume</h2>
+          <h2 className="font-bold">Träningsvolym</h2>
           <p className="mb-2 text-xs text-[var(--color-muted)]">
-            Reps · last 14 days
+            Reps · senaste 14 dagarna
           </p>
           <VolumeChart data={stats.volumeByDay} />
         </div>
         <div className="card p-5">
-          <h2 className="font-bold">Pain trend</h2>
+          <h2 className="font-bold">Smärttrend</h2>
           <p className="mb-2 text-xs text-[var(--color-muted)]">
-            Average per session · lower is better
+            Snitt per pass · lägre är bättre
           </p>
           {stats.painTrend.length ? (
             <PainTrendChart data={stats.painTrend} />
           ) : (
             <p className="grid h-[220px] place-items-center text-sm text-[var(--color-muted)]">
-              Log a rehab session to track pain.
+              Logga ett rehabpass för att följa smärtan.
             </p>
           )}
         </div>
       </div>
 
-      {/* Per-exercise progress */}
+      {/* Framsteg per övning */}
       <div className="mt-8">
-        <h2 className="mb-4 text-lg font-bold">Exercise breakdown</h2>
+        <h2 className="mb-4 text-lg font-bold">Fördelning per övning</h2>
         {progress.length === 0 ? (
           <EmptyState
             icon={<Activity className="h-6 w-6" />}
-            title="No progress logged yet"
-            description="Head to any exercise and log your first set. Your tracked exercises will show up here with trends and personal records."
+            title="Inga framsteg loggade än"
+            description="Gå till valfri övning och logga ditt första set. Dina loggade övningar dyker upp här med trender och personliga rekord."
             action={
               <Link
                 href="/library"
                 className="btn-primary rounded-xl px-4 py-2 text-sm font-semibold"
               >
-                Browse exercises
+                Bläddra bland övningar
               </Link>
             }
           />
@@ -89,7 +89,7 @@ export default async function ProgressPage() {
                         {p.category}
                       </span>
                       <span>·</span>
-                      <span>{p.sessions} sessions</span>
+                      <span>{p.sessions} pass</span>
                       <span>·</span>
                       <span>
                         {p.lastPerformed ? relativeDate(p.lastPerformed) : "—"}
@@ -106,7 +106,7 @@ export default async function ProgressPage() {
                       {p.totalVolume.toLocaleString()}
                     </p>
                     <p className="text-[10px] uppercase tracking-wide text-[var(--color-muted)]">
-                      total reps
+                      totala reps
                     </p>
                   </div>
 
@@ -123,7 +123,7 @@ export default async function ProgressPage() {
                       ) : (
                         <TrendingUp className="h-3 w-3" />
                       )}
-                      pain {painDelta > 0 ? "+" : ""}
+                      smärta {painDelta > 0 ? "+" : ""}
                       {painDelta}
                     </Badge>
                   )}

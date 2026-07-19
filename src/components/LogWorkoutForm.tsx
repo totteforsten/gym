@@ -51,17 +51,17 @@ export function LogWorkoutForm({
     <div className="card p-5">
       <div className="mb-4 flex items-center gap-2">
         <PlusCircle className="h-5 w-5 text-[var(--color-brand)]" />
-        <h2 className="font-bold">Log a set</h2>
+        <h2 className="font-bold">Logga ett set</h2>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Stepper label="Sets" value={sets} setValue={setSets} min={1} max={20} />
+        <Stepper label="Set" value={sets} setValue={setSets} min={1} max={20} />
         <Stepper label="Reps" value={reps} setValue={setReps} min={1} max={100} />
       </div>
 
       <div className="mt-3">
         <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
-          Weight (kg) · optional
+          Vikt (kg) · valfritt
         </label>
         <input
           type="number"
@@ -77,7 +77,7 @@ export function LogWorkoutForm({
         <div className="mt-4">
           <div className="mb-1.5 flex items-center justify-between">
             <label className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
-              Pain level
+              Smärtnivå
             </label>
             <span
               className="text-sm font-bold tabular-nums"
@@ -96,8 +96,8 @@ export function LogWorkoutForm({
             style={{ accentColor: painColor(pain) }}
           />
           <div className="mt-1 flex justify-between text-[10px] text-[var(--color-muted)]">
-            <span>No pain</span>
-            <span>Severe</span>
+            <span>Ingen smärta</span>
+            <span>Svår</span>
           </div>
         </div>
       )}
@@ -105,7 +105,7 @@ export function LogWorkoutForm({
       <div className="mt-4">
         <div className="mb-1.5 flex items-center justify-between">
           <label className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
-            Effort (RPE)
+            Ansträngning (RPE)
           </label>
           <span className="text-sm font-bold tabular-nums text-[var(--color-accent)]">
             {rpe}/10
@@ -125,7 +125,7 @@ export function LogWorkoutForm({
       <textarea
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        placeholder="Notes (how did it feel?)"
+        placeholder="Anteckningar (hur kändes det?)"
         rows={2}
         className="mt-4 w-full resize-none rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-3 py-2.5 text-sm outline-none placeholder:text-[var(--color-muted)] focus:border-[rgba(139,92,246,0.5)]"
       />
@@ -141,12 +141,12 @@ export function LogWorkoutForm({
       >
         {done ? (
           <>
-            <CheckCircle2 className="h-4 w-4" /> Logged!
+            <CheckCircle2 className="h-4 w-4" /> Loggat!
           </>
         ) : pending ? (
-          "Saving…"
+          "Sparar…"
         ) : (
-          `Log ${exerciseName.split(" ")[0]}`
+          `Logga ${exerciseName.split(" ")[0]}`
         )}
       </button>
     </div>

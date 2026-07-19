@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Dumbbell, Layers, Clock } from "lucide-react";
+import { ArrowLeft, Dumbbell, Layers, Clock, Flame } from "lucide-react";
 import { getProgram } from "@/lib/queries";
 import { ProgramExercises } from "@/components/ProgramExercises";
 import { DeleteProgramButton } from "@/components/DeleteProgramButton";
@@ -19,6 +19,10 @@ export default async function ProgramPage({
 
   const totalSets = program.exercises.reduce((s, e) => s + e.sets, 0);
   const estMinutes = Math.max(5, Math.round(totalSets * 1.5));
+  const estKcal = program.exercises.reduce(
+    (s, e) => s + e.sets * (e.exercise.kcalPerSet ?? 4),
+    0,
+  );
 
   const items = program.exercises.map((pe) => ({
     exerciseId: pe.exercise.id,
@@ -38,7 +42,7 @@ export default async function ProgramPage({
         href="/programs"
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:text-white"
       >
-        <ArrowLeft className="h-4 w-4" /> All programs
+        <ArrowLeft className="h-4 w-4" /> Alla program
       </Link>
 
       <div
@@ -75,14 +79,15 @@ export default async function ProgramPage({
         </div>
 
         <div className="relative mt-6 flex flex-wrap gap-3">
-          <Stat icon={<Dumbbell className="h-4 w-4" />} label={`${program.exercises.length} exercises`} />
-          <Stat icon={<Layers className="h-4 w-4" />} label={`${totalSets} sets`} />
+          <Stat icon={<Dumbbell className="h-4 w-4" />} label={`${program.exercises.length} övningar`} />
+          <Stat icon={<Layers className="h-4 w-4" />} label={`${totalSets} set`} />
           <Stat icon={<Clock className="h-4 w-4" />} label={`~${estMinutes} min`} />
+          <Stat icon={<Flame className="h-4 w-4" />} label={`~${estKcal} kcal`} />
         </div>
       </div>
 
       <div className="mt-6">
-        <h2 className="mb-4 text-lg font-bold">Exercises in this program</h2>
+        <h2 className="mb-4 text-lg font-bold">Övningar i programmet</h2>
         <ProgramExercises programId={program.id} items={items} />
       </div>
     </main>

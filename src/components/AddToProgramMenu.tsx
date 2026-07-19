@@ -43,7 +43,7 @@ export function AddToProgramMenu({
     <div className="card p-5">
       <div className="mb-4 flex items-center gap-2">
         <ListPlus className="h-5 w-5 text-[var(--color-accent)]" />
-        <h2 className="font-bold">Add to program</h2>
+        <h2 className="font-bold">Lägg till i program</h2>
       </div>
       <div className="flex flex-col gap-2">
         {programs.map((p) => {

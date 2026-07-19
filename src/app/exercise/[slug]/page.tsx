@@ -6,7 +6,7 @@ import {
   Target,
   Layers,
   ListOrdered,
-  History,
+  Flame,
 } from "lucide-react";
 import { getExerciseBySlug, getPrograms } from "@/lib/queries";
 import { VideoPlayer } from "@/components/VideoPlayer";
@@ -53,7 +53,7 @@ export default async function ExercisePage({
         href="/library"
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:text-white"
       >
-        <ArrowLeft className="h-4 w-4" /> Back to library
+        <ArrowLeft className="h-4 w-4" /> Tillbaka till övningsbanken
       </Link>
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr] lg:items-start">
@@ -92,10 +92,10 @@ export default async function ExercisePage({
 
           {/* Meta cards */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <MetaCard icon={<Dumbbell className="h-4 w-4" />} label="Equipment" value={exercise.equipment} />
-            <MetaCard icon={<Target className="h-4 w-4" />} label="Body part" value={exercise.bodyPart} />
-            <MetaCard icon={<Layers className="h-4 w-4" />} label="Suggested" value={`${exercise.defaultSets}×${exercise.defaultReps}`} />
-            <MetaCard icon={<History className="h-4 w-4" />} label="Times logged" value={String(logs.length)} />
+            <MetaCard icon={<Dumbbell className="h-4 w-4" />} label="Utrustning" value={exercise.equipment} />
+            <MetaCard icon={<Target className="h-4 w-4" />} label="Kroppsdel" value={exercise.bodyPart} />
+            <MetaCard icon={<Layers className="h-4 w-4" />} label="Rekommenderat" value={`${exercise.defaultSets}×${exercise.defaultReps}`} />
+            <MetaCard icon={<Flame className="h-4 w-4" />} label="Kcal / set" value={`~${exercise.kcalPerSet}`} />
           </div>
         </div>
 
@@ -126,7 +126,7 @@ export default async function ExercisePage({
           <div className="card p-5 sm:p-6">
             <div className="mb-4 flex items-center gap-2">
               <ListOrdered className="h-5 w-5 text-[var(--color-brand)]" />
-              <h2 className="text-lg font-bold">How to perform</h2>
+              <h2 className="text-lg font-bold">Så här gör du</h2>
             </div>
             <ol className="flex flex-col gap-4">
               {exercise.instructions.map((step, i) => (
@@ -143,7 +143,7 @@ export default async function ExercisePage({
 
             <div className="mt-5 flex flex-wrap gap-2 border-t border-[var(--color-border)] pt-5">
               <span className="text-xs font-semibold text-[var(--color-muted)]">
-                Targets:
+                Tränar:
               </span>
               {exercise.targetMuscles.map((m) => (
                 <span key={m} className="chip px-2.5 py-0.5 text-xs">

@@ -40,12 +40,12 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
             <Activity className="h-7 w-7 text-white" />
           </span>
           <h1 className="mt-4 text-2xl font-extrabold tracking-tight">
-            {isSignup ? "Create your account" : "Welcome back"}
+            {isSignup ? "Skapa ditt konto" : "Välkommen tillbaka"}
           </h1>
           <p className="mt-1.5 text-sm text-[var(--color-muted)]">
             {isSignup
-              ? "Start tracking your rehab and training with Atlas."
-              : "Sign in to continue your training."}
+              ? "Börja följa din rehab och träning med Atlas."
+              : "Logga in för att fortsätta din träning."}
           </p>
         </div>
 
@@ -55,7 +55,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
               icon={<UserIcon className="h-4 w-4" />}
               name="name"
               type="text"
-              placeholder="Your name"
+              placeholder="Ditt namn"
               autoComplete="name"
             />
           )}
@@ -63,14 +63,14 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
             icon={<Mail className="h-4 w-4" />}
             name="email"
             type="email"
-            placeholder="you@email.com"
+            placeholder="du@email.se"
             autoComplete="email"
           />
           <AuthField
             icon={<Lock className="h-4 w-4" />}
             name="password"
             type="password"
-            placeholder={isSignup ? "Create a password (8+ chars)" : "Password"}
+            placeholder={isSignup ? "Välj ett lösenord (8+ tecken)" : "Lösenord"}
             autoComplete={isSignup ? "new-password" : "current-password"}
           />
 
@@ -86,21 +86,21 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
             className="btn-primary mt-1 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-bold disabled:opacity-60"
           >
             {pending
-              ? "Please wait…"
+              ? "Vänta…"
               : isSignup
-                ? "Create account"
-                : "Sign in"}
+                ? "Skapa konto"
+                : "Logga in"}
             {!pending && <ArrowRight className="h-4 w-4" />}
           </button>
         </form>
 
         <p className="mt-5 text-center text-sm text-[var(--color-muted)]">
-          {isSignup ? "Already have an account?" : "New to Atlas?"}{" "}
+          {isSignup ? "Har du redan ett konto?" : "Ny på Atlas?"}{" "}
           <Link
             href={isSignup ? "/login" : "/signup"}
             className="font-semibold text-[var(--color-brand)] hover:underline"
           >
-            {isSignup ? "Sign in" : "Create an account"}
+            {isSignup ? "Logga in" : "Skapa ett konto"}
           </Link>
         </p>
       </div>

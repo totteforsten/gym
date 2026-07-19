@@ -6,10 +6,29 @@ import { Plus, Trash2, Sparkles, Youtube, ImageOff } from "lucide-react";
 import { createExercise } from "@/lib/actions";
 import { youtubeThumb } from "@/lib/utils";
 
-const CATEGORIES = ["Hip Rehab", "Strength", "Mobility", "Core"];
-const BODY_PARTS = ["Hip", "Glutes", "Core", "Legs", "Lower Back"];
-const DIFFICULTIES = ["Beginner", "Intermediate", "Advanced"];
-const EQUIPMENT = ["None", "Resistance Band", "Dumbbell", "Mat"];
+const CATEGORIES = [
+  "Styrka",
+  "Calisthenics",
+  "Rehab",
+  "Rörlighet",
+  "Core",
+  "Kondition",
+];
+const BODY_PARTS = [
+  "Bröst",
+  "Rygg",
+  "Axlar",
+  "Armar",
+  "Ben",
+  "Rumpa",
+  "Vader",
+  "Bål",
+  "Höft",
+  "Nedre rygg",
+  "Helkropp",
+];
+const DIFFICULTIES = ["Nybörjare", "Medel", "Avancerad"];
+const EQUIPMENT = ["Ingen", "Gummiband", "Hantlar", "Matta", "Räcke", "Stol/bänk"];
 
 function parseId(input: string): string {
   const s = input.trim();
@@ -44,7 +63,7 @@ export function CreateExerciseForm() {
 
   function submit() {
     if (!name.trim()) {
-      setError("Please give your exercise a name.");
+      setError("Ge din övning ett namn.");
       return;
     }
     setError("");
@@ -72,36 +91,36 @@ export function CreateExerciseForm() {
     <div className="max-w-3xl">
       <div className="mb-6 animate-fade-up">
         <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-brand)]">
-          New exercise
+          Ny övning
         </p>
         <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-          Add a custom exercise
+          Lägg till en egen övning
         </h1>
         <p className="mt-1.5 text-sm text-[var(--color-muted)]">
-          Build your own move with a video, coaching cues and default sets — it
-          joins your library instantly.
+          Bygg din egen övning med video, tekniktips och standardset — den läggs
+          till i övningsbanken direkt.
         </p>
       </div>
 
       <div className="flex flex-col gap-5">
         {/* Basics */}
         <div className="card p-5">
-          <SectionLabel>Basics</SectionLabel>
+          <SectionLabel>Grunder</SectionLabel>
           <div className="flex flex-col gap-4">
-            <Field label="Name *">
+            <Field label="Namn *">
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Copenhagen Plank"
+                placeholder="t.ex. Köpenhamnsplanka"
                 className="ipt"
                 autoFocus
               />
             </Field>
-            <Field label="Description">
+            <Field label="Beskrivning">
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="What it does and why it helps…"
+                placeholder="Vad den gör och varför den hjälper…"
                 rows={2}
                 className="ipt resize-none"
               />
@@ -111,8 +130,8 @@ export function CreateExerciseForm() {
 
         {/* Video */}
         <div className="card p-5">
-          <SectionLabel>Video demonstration</SectionLabel>
-          <Field label="YouTube link or video ID">
+          <SectionLabel>Demonstrationsvideo</SectionLabel>
+          <Field label="YouTube-länk eller video-ID">
             <div className="relative">
               <Youtube className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-muted)]" />
               <input
@@ -135,7 +154,7 @@ export function CreateExerciseForm() {
               <div className="grid h-full place-items-center text-[var(--color-muted)]">
                 <div className="flex flex-col items-center gap-1 text-xs">
                   <ImageOff className="h-5 w-5" />
-                  Preview
+                  Förhandsvisning
                 </div>
               </div>
             )}
@@ -144,12 +163,12 @@ export function CreateExerciseForm() {
 
         {/* Classification */}
         <div className="card p-5">
-          <SectionLabel>Classification</SectionLabel>
+          <SectionLabel>Klassificering</SectionLabel>
           <div className="flex flex-col gap-4">
-            <PillGroup label="Category" options={CATEGORIES} value={category} onChange={setCategory} />
-            <PillGroup label="Body part" options={BODY_PARTS} value={bodyPart} onChange={setBodyPart} />
-            <PillGroup label="Difficulty" options={DIFFICULTIES} value={difficulty} onChange={setDifficulty} />
-            <PillGroup label="Equipment" options={EQUIPMENT} value={equipment} onChange={setEquipment} />
+            <PillGroup label="Kategori" options={CATEGORIES} value={category} onChange={setCategory} />
+            <PillGroup label="Kroppsdel" options={BODY_PARTS} value={bodyPart} onChange={setBodyPart} />
+            <PillGroup label="Svårighet" options={DIFFICULTIES} value={difficulty} onChange={setDifficulty} />
+            <PillGroup label="Utrustning" options={EQUIPMENT} value={equipment} onChange={setEquipment} />
             <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] p-3">
               <input
                 type="checkbox"
@@ -158,46 +177,46 @@ export function CreateExerciseForm() {
                 className="h-4 w-4 accent-[var(--color-brand)]"
               />
               <div>
-                <p className="text-sm font-semibold">Rehab exercise</p>
+                <p className="text-sm font-semibold">Rehabövning</p>
                 <p className="text-xs text-[var(--color-muted)]">
-                  Enables pain-level tracking when logging.
+                  Aktiverar smärtnivå-loggning när du loggar.
                 </p>
               </div>
             </label>
           </div>
         </div>
 
-        {/* Defaults */}
+        {/* Standardvärden */}
         <div className="card p-5">
-          <SectionLabel>Default prescription</SectionLabel>
+          <SectionLabel>Standarddos</SectionLabel>
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Sets">
+            <Field label="Set">
               <input type="number" min={1} value={sets} onChange={(e) => setSets(Number(e.target.value))} className="ipt" />
             </Field>
-            <Field label="Reps / seconds">
+            <Field label="Reps / sekunder">
               <input type="number" min={1} value={reps} onChange={(e) => setReps(Number(e.target.value))} className="ipt" />
             </Field>
           </div>
         </div>
 
-        {/* Instructions */}
+        {/* Instruktioner */}
         <div className="card p-5">
-          <SectionLabel>Coaching cues</SectionLabel>
+          <SectionLabel>Tekniktips</SectionLabel>
           <ListEditor
             items={instructions}
             setItems={setInstructions}
-            placeholder="Step / cue…"
+            placeholder="Steg / tips…"
             numbered
           />
         </div>
 
-        {/* Muscles */}
+        {/* Muskler */}
         <div className="card p-5">
-          <SectionLabel>Target muscles</SectionLabel>
+          <SectionLabel>Muskler som tränas</SectionLabel>
           <ListEditor
             items={muscles}
             setItems={setMuscles}
-            placeholder="e.g. Gluteus Medius"
+            placeholder="t.ex. Gluteus medius"
           />
         </div>
 
@@ -212,13 +231,13 @@ export function CreateExerciseForm() {
             className="btn-primary inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold disabled:opacity-60"
           >
             <Sparkles className="h-4 w-4" />
-            {pending ? "Creating…" : "Create exercise"}
+            {pending ? "Skapar…" : "Skapa övning"}
           </button>
           <button
             onClick={() => router.push("/library")}
             className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-6 py-3 text-sm font-semibold text-[var(--color-muted)] hover:text-white"
           >
-            Cancel
+            Avbryt
           </button>
         </div>
       </div>
@@ -338,7 +357,7 @@ function ListEditor({
         onClick={() => setItems([...items, ""])}
         className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-lg border border-dashed border-[var(--color-border)] px-3 py-2 text-xs font-semibold text-[var(--color-muted)] hover:border-[rgba(139,92,246,0.4)] hover:text-white"
       >
-        <Plus className="h-3.5 w-3.5" /> Add {numbered ? "step" : "muscle"}
+        <Plus className="h-3.5 w-3.5" /> Lägg till {numbered ? "steg" : "muskel"}
       </button>
     </div>
   );

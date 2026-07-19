@@ -21,32 +21,31 @@ export async function ensureSeeded(): Promise<void> {
 }
 
 async function runSeed(): Promise<void> {
-  const existing = await prisma.exercise.count();
-  if (existing > 0) {
-    await syncCuratedVideos();
-    return;
-  }
-
+  // Upsert every curated exercise, refreshing all fields. This both seeds an
+  // empty database and keeps an already-seeded one in sync when the curated
+  // content changes (e.g. translations, new videos, new exercises). Runs once
+  // per process cold start thanks to the ensureSeeded promise guard.
   for (const ex of EXERCISES) {
+    const data = {
+      name: ex.name,
+      description: ex.description,
+      category: ex.category,
+      bodyPart: ex.bodyPart,
+      difficulty: ex.difficulty,
+      equipment: ex.equipment,
+      videoId: ex.videoId,
+      instructions: ex.instructions,
+      targetMuscles: ex.targetMuscles,
+      tags: ex.tags,
+      defaultSets: ex.defaultSets,
+      defaultReps: ex.defaultReps,
+      kcalPerSet: ex.kcalPerSet,
+      isRehab: ex.isRehab,
+    };
     await prisma.exercise.upsert({
       where: { slug: ex.slug },
-      update: {},
-      create: {
-        slug: ex.slug,
-        name: ex.name,
-        description: ex.description,
-        category: ex.category,
-        bodyPart: ex.bodyPart,
-        difficulty: ex.difficulty,
-        equipment: ex.equipment,
-        videoId: ex.videoId,
-        instructions: ex.instructions,
-        targetMuscles: ex.targetMuscles,
-        tags: ex.tags,
-        defaultSets: ex.defaultSets,
-        defaultReps: ex.defaultReps,
-        isRehab: ex.isRehab,
-      },
+      update: data,
+      create: { slug: ex.slug, ...data },
     });
   }
 }
@@ -75,6 +74,7 @@ export async function ensureUserData(userId: string): Promise<void> {
         description: prog.description,
         color: prog.color,
         emoji: prog.emoji,
+        goal: prog.goal,
         isDefault: prog.isDefault,
       },
     });
@@ -95,20 +95,5 @@ export async function ensureUserData(userId: string): Promise<void> {
         },
       });
     }
-  }
-}
-
-/**
- * Keeps the curated exercises' demonstration videos in sync with the seed
- * data on databases that were seeded before a video was updated. Runs once
- * per process cold start (guarded by the ensureSeeded promise) and only
- * writes rows whose videoId actually differs.
- */
-async function syncCuratedVideos(): Promise<void> {
-  for (const ex of EXERCISES) {
-    await prisma.exercise.updateMany({
-      where: { slug: ex.slug, NOT: { videoId: ex.videoId } },
-      data: { videoId: ex.videoId },
-    });
   }
 }

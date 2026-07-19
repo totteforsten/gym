@@ -126,6 +126,7 @@ export type DashboardStats = {
   totalSessions: number;
   totalSets: number;
   totalReps: number;
+  totalKcal: number;
   thisWeekSessions: number;
   weeklyTarget: number;
   streak: number;
@@ -217,6 +218,10 @@ export async function getDashboardStats(): Promise<DashboardStats> {
   const totalSessions = dayKeys.size;
   const totalSets = logs.reduce((s, l) => s + l.sets, 0);
   const totalReps = logs.reduce((s, l) => s + l.sets * l.reps, 0);
+  const totalKcal = logs.reduce(
+    (s, l) => s + l.sets * (l.exercise.kcalPerSet ?? 4),
+    0,
+  );
 
   // This week (last 7 days)
   const weekAgo = new Date(today.getTime() - 6 * dayMs);
@@ -305,6 +310,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     totalSessions,
     totalSets,
     totalReps,
+    totalKcal,
     thisWeekSessions: thisWeekDays.size,
     weeklyTarget: profile.weeklyTarget,
     streak,

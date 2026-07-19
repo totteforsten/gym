@@ -46,7 +46,7 @@ export function VideoPlayer({
       </div>
       <div className="flex items-center justify-between gap-3 px-4 py-3">
         <p className="text-xs text-[var(--color-muted)]">
-          Video demonstration · tap to play
+          Demonstrationsvideo · tryck för att spela
         </p>
         <a
           href={youtubeSearchUrl(name)}
@@ -54,7 +54,7 @@ export function VideoPlayer({
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--color-muted)] transition-colors hover:text-white"
         >
-          More on YouTube <ExternalLink className="h-3.5 w-3.5" />
+          Mer på YouTube <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
     </div>

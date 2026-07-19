@@ -59,30 +59,30 @@ export function ExerciseHistory({
     <div className="card p-6">
       <div className="mb-4 flex items-center gap-2">
         <History className="h-5 w-5 text-[var(--color-brand)]" />
-        <h2 className="text-lg font-bold">Your progress</h2>
+        <h2 className="text-lg font-bold">Dina framsteg</h2>
       </div>
 
       {logs.length === 0 ? (
         <p className="py-10 text-center text-sm text-[var(--color-muted)]">
-          No history yet. Log your first set to start tracking progress on this
-          exercise.
+          Ingen historik än. Logga ditt första set för att börja följa dina
+          framsteg på den här övningen.
         </p>
       ) : (
         <>
           <div className="mb-5 grid grid-cols-3 gap-3">
             <MiniStat
               icon={<TrendingUp className="h-3.5 w-3.5" />}
-              label="Total volume"
-              value={totalVolume.toLocaleString()}
+              label="Total volym"
+              value={totalVolume.toLocaleString("sv-SE")}
             />
             <MiniStat
               icon={<Trophy className="h-3.5 w-3.5" />}
-              label="Best weight"
+              label="Bästa vikt"
               value={bestWeight > 0 ? `${bestWeight}kg` : "—"}
             />
             <MiniStat
               icon={<History className="h-3.5 w-3.5" />}
-              label="Sessions"
+              label="Pass"
               value={String(logs.length)}
             />
           </div>
@@ -101,8 +101,8 @@ export function ExerciseHistory({
                       fontSize: 12,
                     }}
                   />
-                  <Line type="monotone" dataKey="volume" name="Volume" stroke="#8b5cf6" strokeWidth={2.5} dot={{ r: 3 }} />
-                  <Line type="monotone" dataKey="pain" name="Pain" stroke="#22d3ee" strokeWidth={2} strokeDasharray="4 4" dot={false} />
+                  <Line type="monotone" dataKey="volume" name="Volym" stroke="#8b5cf6" strokeWidth={2.5} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="pain" name="Smärta" stroke="#22d3ee" strokeWidth={2} strokeDasharray="4 4" dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -129,7 +129,7 @@ export function ExerciseHistory({
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="chip px-2 py-0.5" style={{ color: painColor(l.painLevel) }}>
-                    pain {l.painLevel}
+                    smärta {l.painLevel}
                   </span>
                   <span className="text-[var(--color-muted)]">
                     {relativeDate(l.performedAt)}

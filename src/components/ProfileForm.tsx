@@ -36,10 +36,10 @@ export function ProfileForm({
 
   return (
     <div className="card p-6">
-      <h3 className="mb-5 font-bold">Edit profile</h3>
+      <h3 className="mb-5 font-bold">Redigera profil</h3>
 
       <div className="flex flex-col gap-4">
-        <Field label="Display name">
+        <Field label="Visningsnamn">
           <input
             value={form.name}
             onChange={(e) => update("name", e.target.value)}
@@ -47,7 +47,7 @@ export function ProfileForm({
           />
         </Field>
 
-        <Field label="Goal">
+        <Field label="Mål">
           <input
             value={form.goal}
             onChange={(e) => update("goal", e.target.value)}
@@ -58,10 +58,10 @@ export function ProfileForm({
         <div>
           <div className="mb-1.5 flex items-center justify-between">
             <label className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
-              Weekly training target
+              Veckomål för träning
             </label>
             <span className="text-sm font-bold text-[var(--color-brand)]">
-              {form.weeklyTarget} days
+              {form.weeklyTarget} dagar
             </span>
           </div>
           <input
@@ -76,7 +76,7 @@ export function ProfileForm({
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Field label="Height (cm)">
+          <Field label="Längd (cm)">
             <input
               type="number"
               value={form.heightCm}
@@ -84,7 +84,7 @@ export function ProfileForm({
               className="input"
             />
           </Field>
-          <Field label="Weight (kg)">
+          <Field label="Vikt (kg)">
             <input
               type="number"
               step={0.1}
@@ -106,11 +106,11 @@ export function ProfileForm({
         >
           {saved ? (
             <>
-              <CheckCircle2 className="h-4 w-4" /> Saved
+              <CheckCircle2 className="h-4 w-4" /> Sparat
             </>
           ) : (
             <>
-              <Save className="h-4 w-4" /> {pending ? "Saving…" : "Save changes"}
+              <Save className="h-4 w-4" /> {pending ? "Sparar…" : "Spara ändringar"}
             </>
           )}
         </button>

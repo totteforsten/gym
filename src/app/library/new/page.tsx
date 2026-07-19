@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { CreateExerciseForm } from "@/components/CreateExerciseForm";
 
-export const metadata = { title: "New Exercise · Atlas" };
+export const metadata = { title: "Ny övning · Atlas" };
 
 export default function NewExercisePage() {
   return (
@@ -11,7 +11,7 @@ export default function NewExercisePage() {
         href="/library"
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:text-white"
       >
-        <ArrowLeft className="h-4 w-4" /> Back to library
+        <ArrowLeft className="h-4 w-4" /> Tillbaka till övningsbanken
       </Link>
       <CreateExerciseForm />
     </main>

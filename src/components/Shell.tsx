@@ -15,11 +15,11 @@ import { motion } from "framer-motion";
 import { signOut } from "@/lib/auth-actions";
 
 const NAV = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/library", label: "Exercises", icon: Dumbbell },
-  { href: "/programs", label: "Programs", icon: ListChecks },
-  { href: "/progress", label: "Progress", icon: LineChart },
-  { href: "/profile", label: "Profile", icon: User },
+  { href: "/", label: "Översikt", icon: LayoutDashboard },
+  { href: "/library", label: "Övningar", icon: Dumbbell },
+  { href: "/programs", label: "Program", icon: ListChecks },
+  { href: "/progress", label: "Framsteg", icon: LineChart },
+  { href: "/profile", label: "Profil", icon: User },
 ];
 
 const AUTH_ROUTES = ["/login", "/signup"];
@@ -80,9 +80,9 @@ export function Shell({
           </span>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">
-              {userName ?? "Athlete"}
+              {userName ?? "Atlet"}
             </p>
-            <p className="text-[11px] text-[var(--color-muted)]">Signed in</p>
+            <p className="text-[11px] text-[var(--color-muted)]">Inloggad</p>
           </div>
           <form action={signOut}>
             <button
@@ -143,7 +143,7 @@ function Brand() {
       <div className="leading-tight">
         <p className="text-[15px] font-extrabold tracking-tight">Atlas</p>
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[var(--color-muted)]">
-          Rehab & Train
+          Rehab & Träning
         </p>
       </div>
     </Link>

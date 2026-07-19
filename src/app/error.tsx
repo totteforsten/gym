@@ -21,30 +21,30 @@ export default function Error({
           <Database className="h-7 w-7" />
         </div>
         <h1 className="mt-5 text-2xl font-extrabold">
-          {looksLikeDb ? "Database not reachable" : "Something went wrong"}
+          {looksLikeDb ? "Databasen kan inte nås" : "Något gick fel"}
         </h1>
         {looksLikeDb ? (
           <p className="mt-2 text-sm text-[var(--color-muted)]">
-            Atlas needs a Postgres database. Set the{" "}
+            Atlas behöver en Postgres-databas. Sätt miljövariabeln{" "}
             <code className="rounded bg-[var(--color-surface-2)] px-1.5 py-0.5 text-[var(--color-brand)]">
               DATABASE_URL
             </code>{" "}
-            environment variable (see the README), then run{" "}
+            (se README) och kör{" "}
             <code className="rounded bg-[var(--color-surface-2)] px-1.5 py-0.5 text-[var(--color-brand)]">
               npm run db:push
             </code>
-            . The library and programs seed automatically on first load.
+            . Övningar och program seedas automatiskt vid första besöket.
           </p>
         ) : (
           <p className="mt-2 text-sm text-[var(--color-muted)]">
-            An unexpected error occurred. Try again.
+            Ett oväntat fel uppstod. Försök igen.
           </p>
         )}
         <button
           onClick={reset}
           className="btn-primary mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
         >
-          <RefreshCw className="h-4 w-4" /> Try again
+          <RefreshCw className="h-4 w-4" /> Försök igen
         </button>
       </div>
     </main>

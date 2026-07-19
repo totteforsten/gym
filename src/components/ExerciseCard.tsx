@@ -48,6 +48,7 @@ export function ExerciseCard({ exercise, index = 0 }: Props) {
             <Badge className="border-[rgba(139,92,246,0.4)] bg-[rgba(139,92,246,0.25)] text-white backdrop-blur">
               <Activity className="h-3 w-3" /> Rehab
             </Badge>
+
           )}
         </div>
         <div className="absolute bottom-3 right-3 grid h-11 w-11 place-items-center rounded-full bg-[rgba(139,92,246,0.9)] text-white opacity-0 shadow-lg backdrop-blur transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 sm:scale-75">

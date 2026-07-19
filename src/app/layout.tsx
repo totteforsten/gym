@@ -4,9 +4,9 @@ import { Shell } from "@/components/Shell";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Atlas — Modern Gym & Rehab Tracker",
+  title: "Atlas — Modern gym- och rehabapp",
   description:
-    "A modern gym app to find video-guided exercises, build programs and track your rehab progress.",
+    "En modern gymapp för att hitta videoguidade övningar, bygga program och följa dina framsteg och rehab.",
 };
 
 export const viewport: Viewport = {
@@ -23,7 +23,7 @@ export default async function RootLayout({
   // Never let a DB hiccup crash the shell — the login page must still render.
   const user = await getCurrentUser().catch(() => null);
   return (
-    <html lang="en">
+    <html lang="sv">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

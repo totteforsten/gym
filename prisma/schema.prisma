@@ -45,6 +45,7 @@ model Exercise {
   tags          String[]
   defaultSets   Int      @default(3)
   defaultReps   Int      @default(12)
+  kcalPerSet    Int      @default(4)
   isRehab       Boolean  @default(false)
   createdAt     DateTime @default(now())
 
@@ -59,6 +60,7 @@ model Program {
   description String
   color       String   @default("#6366f1")
   emoji       String   @default("🏋️")
+  goal        String   @default("Rehab")
   isDefault   Boolean  @default(false)
   createdAt   DateTime @default(now())
 

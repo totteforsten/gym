@@ -47,14 +47,15 @@ export default async function DashboardPage() {
               <Sparkles className="h-3 w-3" /> {greeting()}
             </Badge>
             <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Welcome back, <span className="gradient-text">{profile.name}</span>
+              Välkommen tillbaka,{" "}
+              <span className="gradient-text">{profile.name}</span>
             </h1>
             <p className="mt-2 max-w-lg text-sm text-[var(--color-muted)]">
-              {profile.goal} · You&apos;ve trained{" "}
+              {profile.goal} · Du har tränat{" "}
               <span className="font-semibold text-white">
                 {stats.thisWeekSessions}/{stats.weeklyTarget}
               </span>{" "}
-              days this week. Keep the momentum going.
+              dagar denna vecka. Håll flytet uppe.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               {focus && (
@@ -62,7 +63,7 @@ export default async function DashboardPage() {
                   href={`/programs/${focus.id}`}
                   className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
                 >
-                  Start {focus.emoji} {focus.name}
+                  Starta {focus.emoji} {focus.name}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               )}
@@ -70,7 +71,7 @@ export default async function DashboardPage() {
                 href="/library"
                 className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-5 py-2.5 text-sm font-semibold transition-colors hover:border-[rgba(139,92,246,0.4)]"
               >
-                Browse exercises
+                Bläddra bland övningar
               </Link>
             </div>
           </div>
@@ -80,7 +81,7 @@ export default async function DashboardPage() {
             <WeeklyRing pct={weekPct} />
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-[var(--color-muted)]">
-                Weekly goal
+                Veckomål
               </p>
               <p className="mt-1 text-2xl font-extrabold">
                 {stats.thisWeekSessions}
@@ -91,7 +92,7 @@ export default async function DashboardPage() {
               </p>
               <p className="mt-1 flex items-center gap-1 text-xs text-[var(--color-muted)]">
                 <Flame className="h-3.5 w-3.5 text-[var(--color-amber)]" />
-                {stats.streak} day streak
+                {stats.streak} dagars svit
               </p>
             </div>
           </div>
@@ -103,34 +104,34 @@ export default async function DashboardPage() {
         <StatCard
           index={0}
           icon={<CalendarCheck className="h-5 w-5" />}
-          label="Total sessions"
+          label="Antal pass"
           value={stats.totalSessions}
-          hint={`${stats.totalSets} sets logged`}
+          hint={`${stats.totalSets} set loggade`}
           accent="var(--color-brand)"
         />
         <StatCard
           index={1}
           icon={<Dumbbell className="h-5 w-5" />}
-          label="Total reps"
-          value={stats.totalReps.toLocaleString()}
-          hint="across all exercises"
+          label="Totala reps"
+          value={stats.totalReps.toLocaleString("sv-SE")}
+          hint="över alla övningar"
           accent="var(--color-accent)"
         />
         <StatCard
           index={2}
           icon={<HeartPulse className="h-5 w-5" />}
-          label="Avg pain (7d)"
+          label="Snittsmärta (7d)"
           value={stats.avgPain7d != null ? `${stats.avgPain7d}/10` : "—"}
-          hint={painDelta != null ? "vs previous week" : "log to track"}
+          hint={painDelta != null ? "mot förra veckan" : "logga för att följa"}
           trend={painDelta != null ? { value: painDelta, goodWhenDown: true } : undefined}
           accent="var(--color-mint)"
         />
         <StatCard
           index={3}
           icon={<Target className="h-5 w-5" />}
-          label="Exercises tracked"
+          label="Övningar loggade"
           value={`${stats.exercisesTracked}/${stats.totalExercises}`}
-          hint="in your library"
+          hint="i din övningsbank"
           accent="var(--color-amber)"
         />
       </section>
@@ -140,22 +141,30 @@ export default async function DashboardPage() {
         <div className="card animate-fade-up p-5 lg:col-span-2">
           <div className="mb-2 flex items-center justify-between">
             <div>
-              <h2 className="font-bold">Training volume</h2>
+              <h2 className="font-bold">Träningsvolym</h2>
               <p className="text-xs text-[var(--color-muted)]">
-                Reps performed · last 14 days
+                Utförda reps · senaste 14 dagarna
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-lg font-extrabold text-[var(--color-rose)]">
+                ~{stats.totalKcal.toLocaleString("sv-SE")}
+              </p>
+              <p className="text-[10px] uppercase tracking-wide text-[var(--color-muted)]">
+                kcal brända
               </p>
             </div>
           </div>
           <VolumeChart data={stats.volumeByDay} />
         </div>
         <div className="card animate-fade-up p-5">
-          <h2 className="font-bold">Effort split</h2>
-          <p className="mb-4 text-xs text-[var(--color-muted)]">Sets by category</p>
+          <h2 className="font-bold">Fördelning</h2>
+          <p className="mb-4 text-xs text-[var(--color-muted)]">Set per kategori</p>
           {stats.categoryBreakdown.length ? (
             <CategoryDonut data={stats.categoryBreakdown} />
           ) : (
             <p className="py-8 text-center text-sm text-[var(--color-muted)]">
-              Log a workout to see your split.
+              Logga ett pass för att se din fördelning.
             </p>
           )}
         </div>
@@ -164,23 +173,24 @@ export default async function DashboardPage() {
       <section className="mt-4 grid gap-4 lg:grid-cols-3">
         <div className="card animate-fade-up p-5 lg:col-span-2">
           <div className="mb-2">
-            <h2 className="font-bold">Pain trend</h2>
+            <h2 className="font-bold">Smärttrend</h2>
             <p className="text-xs text-[var(--color-muted)]">
-              Lower is better · your recovery signal
+              Lägre är bättre · din återhämtningssignal
             </p>
           </div>
           {stats.painTrend.length ? (
             <PainTrendChart data={stats.painTrend} />
           ) : (
             <p className="py-16 text-center text-sm text-[var(--color-muted)]">
-              No pain data yet — log a rehab session to start tracking recovery.
+              Ingen smärtdata än — logga ett rehabpass för att börja följa din
+              återhämtning.
             </p>
           )}
         </div>
 
-        {/* Recent activity */}
+        {/* Senaste aktivitet */}
         <div className="card animate-fade-up p-5">
-          <h2 className="mb-4 font-bold">Recent activity</h2>
+          <h2 className="mb-4 font-bold">Senaste aktivitet</h2>
           {recent.length ? (
             <ul className="flex flex-col gap-3">
               {recent.map((log) => (
@@ -193,7 +203,7 @@ export default async function DashboardPage() {
                       {log.exercise.name}
                     </p>
                     <p className="text-xs text-[var(--color-muted)]">
-                      {log.sets}×{log.reps} · pain {log.painLevel}/10
+                      {log.sets}×{log.reps} · smärta {log.painLevel}/10
                     </p>
                   </div>
                   <span className="shrink-0 text-xs text-[var(--color-muted)]">
@@ -204,19 +214,19 @@ export default async function DashboardPage() {
             </ul>
           ) : (
             <p className="py-8 text-center text-sm text-[var(--color-muted)]">
-              Your logged workouts will appear here.
+              Dina loggade pass visas här.
             </p>
           )}
         </div>
       </section>
 
-      {/* Focus program */}
+      {/* Fokusprogram */}
       {focus && (
         <section className="mt-8">
           <SectionTitle
-            title="Continue your program"
+            title="Fortsätt ditt program"
             href="/programs"
-            linkLabel="All programs"
+            linkLabel="Alla program"
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {focus.exercises.slice(0, 4).map((pe, i) => (
@@ -231,9 +241,9 @@ export default async function DashboardPage() {
 
 function greeting() {
   const h = new Date().getHours();
-  if (h < 12) return "Good morning";
-  if (h < 18) return "Good afternoon";
-  return "Good evening";
+  if (h < 12) return "God morgon";
+  if (h < 18) return "God eftermiddag";
+  return "God kväll";
 }
 
 function WeeklyRing({ pct }: { pct: number }) {
